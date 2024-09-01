@@ -1,0 +1,226 @@
+body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+    box-sizing: border-box;
+}
+#app {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+}
+h2 {
+    color: #3a3a3a;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* ログイン画面のスタイル */
+#login-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+#login-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#login-container input, #login-container select, #login-container button {
+    margin: 10px 0;
+    padding: 10px;
+    width: calc(100% - 22px);
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#login-container button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login-container button:hover {
+    background-color: #45a049;
+}
+
+.question {
+    text-align: center; /* 中央揃えにする */
+    margin-bottom: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.explanation {
+    background-color: #e7f3fe;
+    border-left: 5px solid #2196F3;
+    padding: 10px;
+    margin-top: 10px;
+}
+.correct {
+    color: #4CAF50;
+    font-weight: bold;
+}
+.incorrect {
+    color: #f44336;
+    font-weight: bold;
+}
+.score {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+}
+.result-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+.music-note {
+    position: fixed;
+    font-size: 30px;
+    opacity: 0.4;
+    animation: float 5s infinite ease-in-out;
+    pointer-events: auto;
+    transition: opacity 1s ease-in-out;
+    cursor: pointer; /* ホバー時にポインターを表示 */
+}
+
+.music-note.fade-out {
+    opacity: 0; /* フェードアウト時に不透明度を0に */
+}
+
+/* 音符が上下にゆっくりと動くアニメーション */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* 音符が左右に動くアニメーション */
+@keyframes move {
+    0% { left: -10%; }
+    100% { left: 110%; }
+}
+
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    #app {
+        padding: 15px;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    .question {
+        padding: 10px;
+    }
+    .music-note {
+        font-size: 20px;
+    }
+}
+
+button {
+    width: 80%; /* ボタンの横幅を広げる */
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 18px; /* フォントサイズを大きく */
+    border-radius: 10px; /* 角を丸く */
+}
+
+
+
+button:hover {
+    background-color: #ff6347;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.question button {
+    display: inline-block; /* ボタンをインラインブロックにして中央に揃える */
+}
+
+/* 新規追加 */
+.progress-bar-container {
+    background-color: #f3f3f3;
+    border-radius: 25px;
+    height: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    background-color: #ff7f50;
+    height: 100%;
+    border-radius: 25px;
+    transition: width 0.3s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #1976D2;
+}
+
+/* フィードバック入力フィールドのスタイル */
+.feedback-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+textarea {
+    width: 80%; /* 横幅を大きく */
+    height: 150px; /* 縦幅を大きく */
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    resize: none;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
