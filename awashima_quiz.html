@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淡島ホテルクイズ</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+    <script defer src="js/app.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="!loggedIn" id="login-container">
+            <h2>{{ texts.welcome }}</h2>
+            <select v-model="selectedLanguage" @change="changeLanguage">
+                <option value="ja">日本語</option>
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+            </select>
+            <input v-model="roomNumber" :placeholder="texts.roomNumberPlaceholder" type="number" min="1">
+            <input v-model="name" :placeholder="texts.namePlaceholder">
+            <button @click="login">{{ texts.loginButton }}</button>
+        </div>
+
+        <!-- クイズ画面 -->
+        <div v-else-if="!quizCompleted">
+            <h2>{{ texts.quizTitle }}</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+            </div>
+        
+            <div v-if="currentQuestion.image">
+                <img :src="currentQuestion.image" alt="Question Image" style="max-width: 100%; height: auto;">
+            </div>
+            <p>{{ currentQuestion.text }}</p>
+        
+            <div class="question">
+                <div v-for="(option, optionIndex) in currentOptions" :key="optionIndex">
+                    <input type="radio" :id="'q'+currentQuestionIndex+'o'+optionIndex" :name="'q'+currentQuestionIndex" :value="option" v-model="currentAnswer" :disabled="answered">
+                    <label :for="'q'+currentQuestionIndex+'o'+optionIndex">{{ option }}</label>
+                </div>
+                <button @click="submitAnswer" :disabled="!currentAnswer || answered" class="btn-primary">{{ texts.submitButton }}</button>
+                <div v-if="answered" class="explanation">
+                    <p :class="currentAnswer === currentQuestion.correct ? 'correct' : 'incorrect'">
+                        {{ currentAnswer === currentQuestion.correct ? texts.correct : texts.incorrect }}
+                    </p>
+                    <p>{{ currentQuestion.explanation }}</p>
+                </div>
+                <button v-if="answered && currentQuestionIndex < questions.length - 1" @click="nextQuestion" class="btn-primary">{{ texts.nextButton }}</button>
+                <button v-if="answered && currentQuestionIndex === questions.length - 1" @click="showResults" class="btn-primary">{{ texts.showResultsButton }}</button>
+            </div>
+        </div>
+        
+        <!-- 結果表示ページ -->
+        <div v-else>
+            <h2>{{ texts.resultsTitle }}</h2>
+            <div class="score">
+                {{ texts.yourScore }}: {{ score }} / {{ questions.length }}
+            </div>
+            <div v-for="(question, index) in questions" :key="index" class="result-item">
+                <p><strong>{{ texts.questionLabel }} {{ index + 1 }}:</strong> {{ question.text }}</p>
+                <p>{{ texts.yourAnswer }}: <span :class="answers[index] === question.correct ? 'correct' : 'incorrect'">{{ answers[index] || '回答なし' }}</span></p>
+                <p>{{ texts.correctAnswer }}: <span class="correct">{{ question.correct }}</span></p>
+                <p>{{ texts.explanation }}: {{ question.explanation }}</p>
+            </div>
+            <div class="feedback-container">
+                <p>淡島クイズお疲れさまでした。<br>可能でありましたらご滞在中の感想等お客様の意見をお聞かせください。</p>
+                <textarea v-model="feedback" placeholder="ご意見や感想をお聞かせください"></textarea>
+                <button @click="submitFeedback" class="btn-primary">回答を終える</button>
+            </div>
+            <button @click="shareResults" class="btn-secondary">Twitterでスコアを共有する</button>
+        </div>
+            <audio autoplay loop>
+            <source src="bgm.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+</body>
+</html>
